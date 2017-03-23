@@ -1,49 +1,27 @@
-/**
- * Creates a generic spell that can be cast.
- *
- * @name Spell
- * @param {string} name         The name of the spell.
- * @param {number} cost         The amount needed to cast this spell.
- * @param {string} description  A short description of the spell.
- * @property {string} name
- * @property {number} cost
- * @property {string} description
- * @method   getDetails
- */
+function Spell(name, cost, description) {
+  this.name = name;
+  this.cost = cost;
+  this.description = description;
+}
 
-  /**
-   * Returns a string of all of the spell's details.
-   * The format doesn't matter, as long as it contains the spell name, cost, and description.
-   *
-   * @name getDetails
-   * @return {string} details containing all of the spells information.
-   */
+  Spell.prototype.getDetails = function() {
+    return this.name + " | " + this.cost + " | " + this.description;
+  };
 
-/**
- * A spell that deals damage.
- * We want to keep this code DRY (Don't Repeat Yourself).
- *
- * So you should use `Spell.call()` to assign the spell name, cost, and description.
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call
- *
- * In addition, you will also want to assign `DamageSpell.prototype`
- * a value so that it inherits from `Spell`.
- * Make sure to call this OUTSIDE of the function declaration.
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/prototype
- *
- * @name DamageSpell
- * @param {string} name         The name of the spell.
- * @param {number} cost         The amount needed to cast this spell.
- * @param {number} damage       The amount of damage this spell deals.
- * @param {string} description  A short description of the spell.
- * @property {string} name
- * @property {number} cost
- * @property {number} damage
- * @property {string} description
- */
+function DamageSpell(name, cost, damage, description) {
+  Spell.call(this, name, cost, description);
+  this.damage = damage;
+}
 
+  DamageSpell.prototype = Object.create(Spell.prototype, {
+    constructor: DamageSpell
+  });
+
+function Spellcaster(name, health, mana) {
+  this.name = name;
+  this.health = health;
+  this.mana = mana;
+}
 /**
  * Now that you've created some spells, let's create
  * `Spellcaster` objects that can use them!
