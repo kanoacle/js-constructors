@@ -33,7 +33,7 @@ function Spellcaster(name, health, mana) {
   };
 
   Spellcaster.prototype.spendMana = function(cost) {
-    if (this.mana > cost) {
+    if (this.mana >= cost) {
       this.mana -= cost;
       return true;
     } else {
@@ -43,53 +43,25 @@ function Spellcaster(name, health, mana) {
   };
 
   Spellcaster.prototype.invoke = function(spell, target) {
-    if (spell instanceof Spell === false && spell instanceof DamageSpell === false){
+    if (spell instanceof Spell !== true){
       return false;
-    } else if (spell instanceof Spell === false && spell instanceof DamageSpell === true) {
-      if (target !== Spellcaster) {
-        return false;
-      }
     } else {
-
+      if (spell instanceof DamageSpell === true) {
+        if (target instanceof Spellcaster !== true) {
+          return false;
+        } else if (this.spendMana(spell.cost) !== true) {
+          return false;
+        }
+        target.inflictDamage(spell.damage);
+        return true;
+      } else if (this.spendMana(spell.cost) !== true) {
+        return false;
+      } else {
+        this.spendMana(spell.cost);
+      }
+      return true;
     }
   };
-/**
- * Now that you've created some spells, let's create
- * `Spellcaster` objects that can use them!
- *
- * @name Spellcaster
- * @param {string} name         The spellcaster's name.
- * @param {number} health       The spellcaster's health points.
- * @param {number} mana         The spellcaster's mana points, used for casting spells.
- * @property {string} name
- * @property {number} health
- * @property {mana} mana
- * @property {boolean} isAlive  Default value should be `true`.
- * @method  inflictDamage
- * @method  spendMana
- * @method  invoke
- */
-
-  /*
-   * @method inflictDamage
-   *
-   * The spellcaster loses health equal to `damage`.
-   * Health should never be negative.
-   * If the spellcaster's health drops to 0,
-   * its `isAlive` property should be set to `false`.
-   *
-   * @param  {number} damage  Amount of damage to deal to the spellcaster
-
-*/
-  /**
-   * @method spendMana
-   *
-   * Reduces the spellcaster's mana by `cost`.
-   * Mana should only be reduced only if there is enough mana to spend.
-   *
-   * @param  {number} cost      The amount of mana to spend.
-   * @return {boolean} success  Whether mana was successfully spent.
-   */
 
   /**
    * @method invoke
