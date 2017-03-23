@@ -21,7 +21,38 @@ function Spellcaster(name, health, mana) {
   this.name = name;
   this.health = health;
   this.mana = mana;
+  this.isAlive = true;
 }
+
+  Spellcaster.prototype.inflictDamage = function(damage) {
+    this.health -= damage;
+    if (this.health <= 0) {
+      this.health = 0;
+      this.isAlive = false;
+    }
+  };
+
+  Spellcaster.prototype.spendMana = function(cost) {
+    if (this.mana > cost) {
+      this.mana -= cost;
+      return true;
+    } else {
+      return false;
+    }
+
+  };
+
+  Spellcaster.prototype.invoke = function(spell, target) {
+    if (spell instanceof Spell === false && spell instanceof DamageSpell === false){
+      return false;
+    } else if (spell instanceof Spell === false && spell instanceof DamageSpell === true) {
+      if (target !== Spellcaster) {
+        return false;
+      }
+    } else {
+
+    }
+  };
 /**
  * Now that you've created some spells, let's create
  * `Spellcaster` objects that can use them!
@@ -39,7 +70,7 @@ function Spellcaster(name, health, mana) {
  * @method  invoke
  */
 
-  /**
+  /*
    * @method inflictDamage
    *
    * The spellcaster loses health equal to `damage`.
@@ -48,8 +79,8 @@ function Spellcaster(name, health, mana) {
    * its `isAlive` property should be set to `false`.
    *
    * @param  {number} damage  Amount of damage to deal to the spellcaster
-   */
 
+*/
   /**
    * @method spendMana
    *
